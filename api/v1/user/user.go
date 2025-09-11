@@ -26,3 +26,13 @@ type RegisterReq struct {
 type RegisterRes struct {
 	Info *entity.GfUsers `json:"info"`
 }
+
+type ThirdLoginReq struct {
+	g.Meta   `path:"/user/thirdLogin" method:"post" summary:"第三方登录" tags:"User"`
+	Platform string `v:"required" dc:"第三方平台" json:"platform"`
+	Code     string `v:"required" dc:"第三方平台Code" json:"code"`
+}
+
+type ThirdLoginRes struct {
+	Info *entity.GfUsers `json:"info"`
+}

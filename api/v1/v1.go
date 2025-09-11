@@ -13,4 +13,5 @@ import (
 type IV1User interface {
 	Login(ctx context.Context, req *user.LoginReq) (res *user.LoginRes, err error)
 	Register(ctx context.Context, req *user.RegisterReq) (res *user.RegisterRes, err error)
+	ThirdLogin(ctx context.Context,req *user.ThirdLoginReq)(res *user.ThirdLoginRes,err error)
 }

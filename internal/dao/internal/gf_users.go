@@ -29,6 +29,7 @@ type GfUsersColumns struct {
 	RegistTime    string // 注册时间
 	LastLoginTime string // 上次登录时间
 	OpenId        string // 第三方openId
+	Avatar		  string //头像
 }
 
 // gfUsersColumns holds the columns for the table gf_users.
@@ -41,6 +42,7 @@ var gfUsersColumns = GfUsersColumns{
 	RegistTime:    "registTime",
 	LastLoginTime: "lastLoginTime",
 	OpenId:        "openId",
+	Avatar:		   "avatar",
 }
 
 // NewGfUsersDao creates and returns a new DAO object for table data access.

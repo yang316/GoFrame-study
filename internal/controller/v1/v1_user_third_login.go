@@ -6,33 +6,34 @@ import (
 	"fmt"
 	"gf_study/api/v1/user"
 	"gf_study/internal/model/entity"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 func (c *ControllerUser) ThirdLogin(ctx context.Context, req *user.ThirdLoginReq) (res *user.ThirdLoginRes, err error) {
 
 	switch req.Platform {
 	case "wechat":
-		wechatMPLogin(req.Code)
+		res, err = wechatMPLogin(req.Code)
 		return
 	default:
-		wechatMPLogin(req.Code)
+		res, err = wechatMPLogin(req.Code)
 		return
 	}
 }
 
 // 微信授权登录
 func wechatMPLogin(code string) (*user.ThirdLoginRes, error) {
-	url := "https://api.weixin.qq.com/sns/jscode2session"
 	// 添加请求参数
 	params := url.Values{}
 	params.Add("appid", "your_appid")   // 替换为你的微信小程序appid
 	params.Add("secret", "your_secret") // 替换为你的微信小程序secret
 	params.Add("js_code", code)
 	params.Add("grant_type", "authorization_code")
-	fullURL := fmt.Sprintf("%s?%s", url, params.Encode())
+	fullURL := fmt.Sprintf("%s?%s", "https://api.weixin.qq.com/sns/jscode2session", params.Encode())
 
 	response, err := http.Get(fullURL)
 	if err != nil {
@@ -61,16 +62,16 @@ func wechatMPLogin(code string) (*user.ThirdLoginRes, error) {
 
 	if result["errcode"] != nil {
 		errMsg := fmt.Sprintf("微信API错误: %v", result["errmsg"])
-		fmt.Println(errMsg)
-		return nil, fmt.Errorf(errMsg)
+		//fmt.Println(errMsg)
+		return nil, gerror.New(errMsg)
 	}
 
 	fmt.Println("解析后的JSON内容:", result)
 	// 根据 ThirdLoginRes 的结构定义调整返回值
 	gfUser := &entity.GfUsers{
 		// 假设 GfUsers 有 OpenID 和 SessionKey 字段
-		OpenID:     result["openid"].(string),
-		SessionKey: result["session_key"].(string),
+		OpenID: result["openid"].(string),
+		//SessionKey: result["session_key"].(string),
 	}
 
 	return &user.ThirdLoginRes{

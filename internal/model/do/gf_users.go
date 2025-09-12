@@ -20,4 +20,5 @@ type GfUsers struct {
 	RegistTime    *gtime.Time // 注册时间
 	LastLoginTime *gtime.Time // 上次登录时间
 	OpenId        interface{} // 第三方openId
+	Avatar		  interface{} //用户头像
 }

@@ -22,6 +22,7 @@ var (
 					v1.NewUser(),
 				)
 			})
+			s.AddStaticPath("/uploads", "./resource/uploads")
 			s.Run()
 			return nil
 		},

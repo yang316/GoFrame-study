@@ -2,6 +2,7 @@ package user
 
 import (
 	"gf_study/internal/model/entity"
+	"github.com/gogf/gf/v2/net/ghttp"
 
 	"github.com/gogf/gf/v2/frame/g"
 )
@@ -35,4 +36,23 @@ type ThirdLoginReq struct {
 
 type ThirdLoginRes struct {
 	Info *entity.GfUsers `json:"info"`
+}
+
+type ProfileReq struct {
+	g.Meta   `path:"/user/profile" method:"put" summary:"修改个人信息" tags:"User"`
+	Nickname string `v:"required|length:2,10" dc:"昵称" json:"nickname"`
+	//Password string `v:"required|length:6,16" dc:"密码" json:"password"`
+	Avatar string `v:"required"  dc:"头像" json:"avatar"`
+}
+type ProfileRes struct {
+	Result bool `dc:"修改结果" json:"result"`
+}
+
+type UploadReq struct {
+	g.Meta `path:"/upload" method:"post" mime:"multipart/form-data" summary:"上传文件" tags:"uploads"`
+	File   *ghttp.UploadFile `v:"required" p:"file" type:"file" dc:"上传文件"`
+}
+type UploadRes struct {
+	Url      string `json:"url"`
+	FileName string `json:"fileName"`
 }

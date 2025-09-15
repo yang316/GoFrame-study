@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"context"
-	v1 "gf_study/internal/controller/v1"
+	"gf_study/internal/controller/v1/goods"
+	"gf_study/internal/controller/v1/user"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -18,8 +19,12 @@ var (
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				// 绑定控制器到路由组
 				group.Bind(
-					v1.NewUser(),
+					// 用户控制器
+					user.NewUser(),
+					goods.NewGoods(),
+					
 				)
 			})
 			s.AddStaticPath("/uploads", "./resource/uploads")
